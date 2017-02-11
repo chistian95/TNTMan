@@ -181,46 +181,46 @@ public class Jugador implements Pintable, KeyListener {
 		List<Integer[]> anim = new ArrayList<Integer[]>();
 		anim.add(new Integer[]{x, y, 0, 0});
 		
-		for(int i = 1; i <= 4; i++) {
+		for(int i = 1; i <= 3; i++) {
 			int px = x - i;
 			if(px <= 0 || mapa[px][y] == 0) {
 				break;
 			}
-			if(px - 1 <= 0 || mapa[px - 1][y] == 0 || i == 4) {
+			if(px - 1 <= 0 || mapa[px - 1][y] == 0 || i == 3) {
 				anim.add(new Integer[]{px, y, 1, 0});
 				break;
 			}
 			anim.add(new Integer[]{px, y, 2, 0});
 		}
-		for(int i = 1; i <= 4; i++) {
+		for(int i = 1; i <= 3; i++) {
 			int px = x + i;
 			if(px >= mapa.length - 1 || mapa[px][y] == 0) {
 				break;
 			}
-			if(px + 1 >= mapa.length - 1 || mapa[px + 1][y] == 0 || i == 4) {
+			if(px + 1 >= mapa.length - 1 || mapa[px + 1][y] == 0 || i == 3) {
 				anim.add(new Integer[]{px, y, 4, 0});
 				break;
 			}
 			anim.add(new Integer[]{px, y, 2, 0});
 		}
 		
-		for(int i = 1; i <= 4; i++) {
+		for(int i = 1; i <= 3; i++) {
 			int py = y - i;
 			if(py <= 0 || mapa[x][py] == 0) {
 				break;
 			}
-			if(py - 1 <= 0 || mapa[x][py - 1] == 0 || i == 4) {
+			if(py - 1 <= 0 || mapa[x][py - 1] == 0 || i == 3) {
 				anim.add(new Integer[]{x, py, 3, 0});
 				break;
 			}
 			anim.add(new Integer[]{x, py, 5, 0});
 		}
-		for(int i = 1; i <= 4; i++) {
+		for(int i = 1; i <= 3; i++) {
 			int py = y + i;
 			if(py >= mapa[0].length - 1 || mapa[x][py] == 0) {
 				break;
 			}
-			if(py + 1 >= mapa[0].length - 1 || mapa[x][py] == 0 || i == 4) {
+			if(py + 1 >= mapa[0].length - 1 || mapa[x][py] == 0 || i == 3) {
 				anim.add(new Integer[]{x, py, 6, 0});
 				break;
 			}
