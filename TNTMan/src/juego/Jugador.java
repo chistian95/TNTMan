@@ -22,6 +22,7 @@ public class Jugador implements Pintable, KeyListener {
 	private int pos;
 	private int posAnt;
 	private int bombas;
+	private int rangoBombas;
 	private int[][] bombasMapa;
 	private List<Integer[]> animaciones;
 	private boolean moverDerecha;
@@ -39,6 +40,7 @@ public class Jugador implements Pintable, KeyListener {
 		pos = -1;
 		posAnt = -1;
 		bombas = 3;
+		rangoBombas = 1;
 		bombasMapa = new int[15][13];
 		animaciones = new ArrayList<Integer[]>();
 		
@@ -148,19 +150,6 @@ public class Jugador implements Pintable, KeyListener {
 			}
 			bombas--;
 			bombasMapa[tileX][tileY] = 1;
-			new Thread() {
-				@Override
-				public void run() {
-					try {
-						Thread.sleep(4000 * (3 - bombas));
-						if(bombas < 3) {
-							bombas++;
-						}
-					} catch(Exception e) {
-						e.printStackTrace();
-					}
-				}
-			}.start();
 			new Bucle(750) {
 				@Override
 				public void onBucle() {
@@ -168,6 +157,7 @@ public class Jugador implements Pintable, KeyListener {
 					if(bombasMapa[tileX][tileY] >= 5) {
 						bombasMapa[tileX][tileY] = 0;
 						animExplosion(tileX, tileY);
+						bombas++;
 						parar();
 					}
 				}
@@ -181,46 +171,66 @@ public class Jugador implements Pintable, KeyListener {
 		List<Integer[]> anim = new ArrayList<Integer[]>();
 		anim.add(new Integer[]{x, y, 0, 0});
 		
-		for(int i = 1; i <= 3; i++) {
+		for(int i = 1; i <= rangoBombas; i++) {
 			int px = x - i;
+			if(mapa[px][y] == 2) {
+				anim.add(new Integer[]{px, y, 1, 0});
+				juego.getMapa().romperCaja(px, y);
+				break;
+			}
 			if(px <= 0 || mapa[px][y] == 0) {
 				break;
 			}
-			if(px - 1 <= 0 || mapa[px - 1][y] == 0 || i == 3) {
+			if(px - 1 <= 0 || mapa[px - 1][y] == 0 || i == rangoBombas) {
 				anim.add(new Integer[]{px, y, 1, 0});
 				break;
 			}
 			anim.add(new Integer[]{px, y, 2, 0});
 		}
-		for(int i = 1; i <= 3; i++) {
+		for(int i = 1; i <= rangoBombas; i++) {
 			int px = x + i;
+			if(mapa[px][y] == 2) {
+				anim.add(new Integer[]{px, y, 4, 0});
+				juego.getMapa().romperCaja(px, y);
+				break;
+			}
 			if(px >= mapa.length - 1 || mapa[px][y] == 0) {
 				break;
 			}
-			if(px + 1 >= mapa.length - 1 || mapa[px + 1][y] == 0 || i == 3) {
+			if(px + 1 >= mapa.length - 1 || mapa[px + 1][y] == 0 || i == rangoBombas) {
 				anim.add(new Integer[]{px, y, 4, 0});
 				break;
 			}
 			anim.add(new Integer[]{px, y, 2, 0});
 		}
 		
-		for(int i = 1; i <= 3; i++) {
+		for(int i = 1; i <= rangoBombas; i++) {
 			int py = y - i;
-			if(py <= 0 || mapa[x][py] == 0) {
+			if(mapa[x][py] == 2) {
+				anim.add(new Integer[]{x, py, 3, 0});
+				juego.getMapa().romperCaja(x, py);
 				break;
 			}
-			if(py - 1 <= 0 || mapa[x][py - 1] == 0 || i == 3) {
+			if(py <= 0 || mapa[x][py] == 0) {				
+				break;
+			}
+			if(py - 1 <= 0 || mapa[x][py - 1] == 0 || i == rangoBombas) {
 				anim.add(new Integer[]{x, py, 3, 0});
 				break;
 			}
 			anim.add(new Integer[]{x, py, 5, 0});
 		}
-		for(int i = 1; i <= 3; i++) {
+		for(int i = 1; i <= rangoBombas; i++) {
 			int py = y + i;
-			if(py >= mapa[0].length - 1 || mapa[x][py] == 0) {
+			if(mapa[x][py] == 2) {
+				anim.add(new Integer[]{x, py, 6, 0});
+				juego.getMapa().romperCaja(x, py);
 				break;
 			}
-			if(py + 1 >= mapa[0].length - 1 || mapa[x][py] == 0 || i == 3) {
+			if(py >= mapa[0].length - 1 || mapa[x][py] == 0) {				
+				break;
+			}
+			if(py + 1 >= mapa[0].length - 1 || mapa[x][py] == 0 || i == rangoBombas) {
 				anim.add(new Integer[]{x, py, 6, 0});
 				break;
 			}
