@@ -39,7 +39,7 @@ public class Jugador implements Pintable, KeyListener {
 		y = Mapa.ALTO;
 		pos = -1;
 		posAnt = -1;
-		bombas = 3;
+		bombas = 1;
 		rangoBombas = 1;
 		bombasMapa = new int[15][13];
 		animaciones = new ArrayList<Integer[]>();
@@ -150,11 +150,16 @@ public class Jugador implements Pintable, KeyListener {
 			}
 			bombas--;
 			bombasMapa[tileX][tileY] = 1;
-			new Bucle(750) {
+			new Bucle(150) {
 				@Override
-				public void onBucle() {
+				public void onBucle() throws InterruptedException {
+					if(bombasMapa[tileX][tileY] == 1) {
+						pausar();
+						Thread.sleep(1500);
+						seguir();
+					}					
 					bombasMapa[tileX][tileY] = bombasMapa[tileX][tileY] + 1;
-					if(bombasMapa[tileX][tileY] >= 5) {
+					if(bombasMapa[tileX][tileY] >= 4) {
 						bombasMapa[tileX][tileY] = 0;
 						animExplosion(tileX, tileY);
 						bombas++;
@@ -238,7 +243,7 @@ public class Jugador implements Pintable, KeyListener {
 		}
 		
 		animaciones.addAll(anim);
-		new Bucle(200) {
+		new Bucle(100) {
 			@Override
 			public void onBucle() {
 				for(Integer[] an : anim) {
