@@ -75,25 +75,25 @@ public class Jugador implements Pintable, KeyListener {
 	private void mover() {
 		if(moverArriba) {
 			y -= 2;
-			if(juego.getMapa().colision(x, y)) {
+			if(juego.getMapa().colision(this)) {
 				y += 2;
 			}
 		}
 		if(moverAbajo) {
 			y += 2;
-			if(juego.getMapa().colision(x, y)) {
+			if(juego.getMapa().colision(this)) {
 				y -= 2;
 			}
 		}
 		if(moverIzquierda) {
 			x -= 2;
-			if(juego.getMapa().colision(x, y)) {
+			if(juego.getMapa().colision(this)) {
 				x += 2;
 			}
 		}
 		if(moverDerecha) {
 			x += 2;
-			if(juego.getMapa().colision(x, y)) {
+			if(juego.getMapa().colision(this)) {
 				x -= 2;
 			}
 		}
@@ -345,5 +345,20 @@ public class Jugador implements Pintable, KeyListener {
 	@Override
 	public void keyTyped(KeyEvent e) {
 	}
-
+	
+	public void darBomba() {
+		bombas++;
+	}
+	
+	public void aumentarRango() {
+		rangoBombas++;
+	}
+	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
+	}
 }
